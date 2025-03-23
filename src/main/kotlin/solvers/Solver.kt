@@ -26,7 +26,7 @@ abstract class Solver(
         route2.add(startPoint2)
     }
 
-    fun solve(): Solution {
+    open fun solve(): Solution {
         used[startPoint1] = true
         used[startPoint2] = true
 
@@ -54,5 +54,5 @@ abstract class Solver(
         return route.zipWithNext().sumOf { instance.distanceMatrix[it.first][it.second] }
     }
 
-    abstract fun findNext(from: Int): Int?
+    open fun findNext(from: Int): Int? {return null}
 }
