@@ -30,13 +30,16 @@ abstract class Solver(
         used[startPoint1] = true
         used[startPoint2] = true
 
-        while (route1.size + route2.size != instance.size) {
+
+        while (route1.size < instance.size / 2) {
             val nearest1 = findNext(route1.last())
             if (nearest1 != null) {
                 route1.add(nearest1)
                 used[nearest1] = true
             }
+        }
 
+        while (route2.size < instance.size / 2) {
             val nearest2 = findNext(route2.last())
             if (nearest2 != null) {
                 route2.add(nearest2)
@@ -54,5 +57,7 @@ abstract class Solver(
         return route.zipWithNext().sumOf { instance.distanceMatrix[it.first][it.second] }
     }
 
-    open fun findNext(from: Int): Int? {return null}
+    open fun findNext(from: Int): Int? {
+        return null
+    }
 }
