@@ -5,6 +5,10 @@ import org.example.models.Route
 import org.example.models.Solution
 import java.util.*
 
+/**
+ * Abstract class for solving the problem.
+ * With basic implementation of the solver by adding city to route.
+ */
 abstract class Solver(
     val instance: Instance,
 ) {
