@@ -1,10 +1,11 @@
-package org.example.solvers
+package org.example.solvers.regret
 
 import org.example.models.Instance
 import org.example.models.Route
 import org.example.models.Solution
+import org.example.solvers.Solver
 
-class TwoRegretSolver(instance: Instance) : Solver(instance) {
+class WeightedTwoRegretSolver(instance: Instance) : Solver(instance) {
 
     data class BestInsertion(
         val insertionIndex: Int,
@@ -47,7 +48,7 @@ class TwoRegretSolver(instance: Instance) : Solver(instance) {
             return BestInsertion(1, minDist.index)
         }
 
-        var maxRegret = -1
+        var maxRegret = Int.MIN_VALUE
         var candidateIndex = -1
         var candidateInsertionIndex = -1
 
@@ -60,7 +61,7 @@ class TwoRegretSolver(instance: Instance) : Solver(instance) {
                 route.remove(candidate)
                 route.removeLast()
                 Pair(insertionIndex, cost)
-            }.sortedBy { it.second }.take(2).zipWithNext { a, b -> Pair(a.first, b.second - a.second) }.first()
+            }.sortedBy { it.second }.take(2).zipWithNext { a, b -> Pair(a.first, a.second - (b.second - a.second)) }.first()
             if (regretWithIndex.second > maxRegret) {
                 candidateIndex = candidate
                 candidateInsertionIndex = regretWithIndex.first

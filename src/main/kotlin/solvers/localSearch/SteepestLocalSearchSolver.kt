@@ -1,4 +1,4 @@
-package org.example.solvers
+package org.example.solvers.localSearch
 
 import org.example.models.Instance
 import org.example.models.Route
@@ -6,33 +6,13 @@ import org.example.models.Solution
 import org.example.utils.swapEdges
 import org.example.utils.swapIndices
 
-enum class NeighborhoodType { VERTICES, EDGES }
-
-class SteepestLocalSearch(
+class SteepestLocalSearchSolver(
     instance: Instance,
-    private val neighborhoodType: NeighborhoodType,
-    private val greedyStart: Boolean = false
-) : Solver(instance) {
+    neighborhoodType: NeighborhoodType,
+    greedyStart: Boolean = false
+) : LocalSearchSolver(instance, neighborhoodType, greedyStart) {
 
-    override fun solve(): Solution {
-        var bestSolution = if (greedyStart) GreedySolver(instance).solve() else RandomSolver(instance).solve()
-
-
-        var improved = true
-        while (improved) {
-            improved = false
-            val newSolution = findBestSwap(bestSolution.route1, bestSolution.route2, neighborhoodType)
-            if (newSolution.route1.distance + newSolution.route2.distance < bestSolution.route1.distance + bestSolution.route2.distance) {
-                println("Improved solution found: ${newSolution.route1.distance + newSolution.route2.distance}")
-                bestSolution = newSolution
-                improved = true
-            }
-        }
-
-        return bestSolution
-    }
-
-    private fun findBestSwap(route1: Route, route2: Route, type: NeighborhoodType): Solution {
+    override fun findBestSwap(route1: Route, route2: Route, type: NeighborhoodType): Solution {
         var bestCost = route1.distance + route2.distance
         var bestRoute1 = route1
         var bestRoute2 = route2

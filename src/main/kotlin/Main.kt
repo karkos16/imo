@@ -1,7 +1,12 @@
 package org.example
 
 import org.example.models.Solution
-import org.example.solvers.*
+import org.example.solvers.greedy.GreedyCycleSolver
+import org.example.solvers.greedy.GreedySolver
+import org.example.solvers.localSearch.GreedyLocalSearchSolver
+import org.example.solvers.localSearch.NeighborhoodType
+import org.example.solvers.regret.TwoRegretSolver
+import org.example.solvers.regret.WeightedTwoRegretSolver
 import org.knowm.xchart.SwingWrapper
 import org.knowm.xchart.XYChartBuilder
 
@@ -9,8 +14,8 @@ fun main() {
     val content = InstanceReader::class.java.getResource("/kroA200.tsp")?.readText()!!
     val instance = InstanceReader.readKroABInstance(content)
     val solvers = listOf(
-        SteepestLocalSearch(instance, NeighborhoodType.EDGES, greedyStart = true),
-        SteepestLocalSearch(instance, NeighborhoodType.EDGES, greedyStart = false),
+        GreedyLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = true),
+        GreedyLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = false),
     )
     for (solver in solvers) {
         solver.reset()

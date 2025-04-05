@@ -1,6 +1,7 @@
-package org.example.solvers
+package org.example.solvers.greedy
 
 import org.example.models.Instance
+import org.example.solvers.Solver
 
 class GreedySolver(
     instance: Instance
