@@ -56,12 +56,26 @@ private fun greedySolversTest(instance: Instance, cities: List<City>, instanceNa
 
 fun getBestTryIn100(solver: Solver, cities: List<City>, instanceName: String) {
     val results = mutableListOf<Int>()
+    val times = mutableListOf<Long>()
     var bestSolution: Solution? = null
     var bestLength = Int.MAX_VALUE
     var worstLength = Int.MIN_VALUE
+    var worstTime = Long.MIN_VALUE
+    var bestTime = Long.MAX_VALUE
     for (n in 1..100) {
         solver.reset()
+        val startTime = System.currentTimeMillis()
         val solution = solver.solve()
+        val endTime = System.currentTimeMillis()
+        val time = endTime - startTime
+        times.add(time)
+        if (time > worstTime) {
+            worstTime = time
+        }
+        if (time < bestTime) {
+            bestTime = time
+        }
+
         val totalLength = solution.route1.distance + solution.route2.distance
         results.add(totalLength)
 
@@ -75,11 +89,17 @@ fun getBestTryIn100(solver: Solver, cities: List<City>, instanceName: String) {
     }
 
     val averageLength = results.average()
+    val averageTime = times.average()
 
-    println("Solver: ${solver.chartDescription}")
+    println("==========================")
+    println("Solver: ${solver.chartDescription}, Instance: $instanceName")
     println("Average length: $averageLength")
     println("Best length: $bestLength")
     println("Worst length: $worstLength")
+    println("Average time: $averageTime ms")
+    println("Best time: $bestTime ms")
+    println("Worst time: $worstTime ms")
+    println("==========================")
 
     // Visualize the best solution
     if (bestSolution != null) {
