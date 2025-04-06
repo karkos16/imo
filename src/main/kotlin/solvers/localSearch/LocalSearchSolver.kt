@@ -12,6 +12,9 @@ abstract class LocalSearchSolver(
     private val neighborhoodType: NeighborhoodType,
     private val greedyStart: Boolean = false
 ) : Solver(instance) {
+    override val chartDescription: String
+        get() = "${this::class.simpleName}($neighborhoodType, greedyStart=$greedyStart)"
+
     override fun solve(): Solution {
         var bestSolution = if (greedyStart) GreedySolver(instance).solve() else RandomSolver(instance).solve()
 

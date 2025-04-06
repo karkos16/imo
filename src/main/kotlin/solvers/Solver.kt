@@ -12,6 +12,7 @@ import java.util.*
 abstract class Solver(
     val instance: Instance,
 ) {
+    open val chartDescription = this::class.simpleName!!
     val used = BooleanArray(instance.size)
     internal var startPoint1 = Random().nextInt(instance.size)
     internal var startPoint2 =
