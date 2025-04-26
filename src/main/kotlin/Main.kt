@@ -6,11 +6,11 @@ import org.example.models.Solution
 import org.example.solvers.Solver
 import org.example.solvers.greedy.GreedyCycleSolver
 import org.example.solvers.greedy.GreedySolver
-import org.example.solvers.localSearch.GreedyLocalSearchSolver
 import org.example.solvers.localSearch.NeighborhoodType
 import org.example.solvers.localSearch.SteepestLocalSearchSolver
 import org.example.solvers.regret.TwoRegretSolver
 import org.example.solvers.regret.WeightedTwoRegretSolver
+import org.knowm.xchart.BitmapEncoder
 import org.knowm.xchart.SwingWrapper
 import org.knowm.xchart.XYChartBuilder
 
@@ -32,13 +32,13 @@ private fun runSolvers(cities: List<City>, solvers: List<Solver>, instanceName: 
 
 private fun localSearchSolversTest(instance: Instance, cities: List<City>, instanceName: String) {
     val solvers = listOf(
-        GreedyLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = true),
-        GreedyLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = false),
-        GreedyLocalSearchSolver(instance, NeighborhoodType.VERTICES, greedyStart = true),
-        GreedyLocalSearchSolver(instance, NeighborhoodType.VERTICES, greedyStart = false),
-        SteepestLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = true),
-        SteepestLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = false),
-        SteepestLocalSearchSolver(instance, NeighborhoodType.VERTICES, greedyStart = true),
+//        GreedyLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = true),
+//        GreedyLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = false),
+//        GreedyLocalSearchSolver(instance, NeighborhoodType.VERTICES, greedyStart = true),
+//        GreedyLocalSearchSolver(instance, NeighborhoodType.VERTICES, greedyStart = false),
+//        SteepestLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = true),
+//        SteepestLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = false),
+//        SteepestLocalSearchSolver(instance, NeighborhoodType.VERTICES, greedyStart = true),
         SteepestLocalSearchSolver(instance, NeighborhoodType.VERTICES, greedyStart = false)
     )
     runSolvers(cities, solvers, instanceName)
@@ -119,7 +119,7 @@ fun getBestTryIn100(solver: Solver, cities: List<City>, instanceName: String) {
 
         chart.addSeries("Route 1", x1, y1)
         chart.addSeries("Route 2", x2, y2)
-
+        BitmapEncoder.saveBitmap(chart, "${instanceName}_${solver.chartDescription}", BitmapEncoder.BitmapFormat.PNG)
         SwingWrapper(chart).displayChart()
     }
 }

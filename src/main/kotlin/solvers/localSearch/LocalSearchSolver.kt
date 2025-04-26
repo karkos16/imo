@@ -65,6 +65,8 @@ abstract class LocalSearchSolver(
                     newRoute1[normalizedI] = route2.indices[normalizedJ]
                     newRoute2[normalizedJ] = route1.indices[normalizedI]
 
+                    newRoute1[newRoute1.size - 1] = newRoute2[0]
+                    newRoute2[newRoute2.size - 1] = newRoute1[0]
                     return Solution(
                         route1 = Route(newRoute1, calculateRouteLength(newRoute1)),
                         route2 = Route(newRoute2, calculateRouteLength(newRoute2))
@@ -103,6 +105,7 @@ abstract class LocalSearchSolver(
                             val newRoute = route.toMutableList()
                             newRoute.swapIndices(normalizedI, normalizedJ)
 
+                            newRoute[newRoute.size - 1] = newRoute[0]
                             return Solution(
                                 route1 = if (moveType == MoveType.INNER_ROUTE1) {
                                     Route(newRoute, calculateRouteLength(newRoute))
@@ -130,6 +133,7 @@ abstract class LocalSearchSolver(
                             val newRoute = route.toMutableList()
                             newRoute.swapEdges(normalizedI, normalizedJ)
 
+                            newRoute[newRoute.size - 1] = newRoute[0]
                             return Solution(
                                 route1 = if (moveType == MoveType.INNER_ROUTE1) {
                                     Route(newRoute, calculateRouteLength(newRoute))
