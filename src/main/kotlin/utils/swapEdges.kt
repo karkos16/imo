@@ -1,10 +1,18 @@
 package org.example.utils
 
 fun <T> MutableList<T>.swapEdges(i: Int, j: Int) {
-    if (i < 0 || j < 0 || i + 1 >= size || j + 1 >= size || i >= j - 1) {
+    var start = i
+    var end = j
+
+    if (j < i) {
+        start = j
+        end = i
+    }
+
+    if (start < 0 || end < 0 || start + 1 >= size || end + 1 > size || start >= end - 1) {
         return
     }
 
-    val subListToReverse = this.subList(i + 1, j + 1)
+    val subListToReverse = this.subList(start + 1, end + 1)
     subListToReverse.reverse()
 }

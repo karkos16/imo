@@ -6,8 +6,7 @@ import org.example.models.Solution
 import org.example.solvers.Solver
 import org.example.solvers.greedy.GreedyCycleSolver
 import org.example.solvers.greedy.GreedySolver
-import org.example.solvers.localSearch.NeighborhoodType
-import org.example.solvers.localSearch.SteepestLocalSearchSolver
+import org.example.solvers.localSearchMoveRating.SteepestHistoryLocalSearchSolver
 import org.example.solvers.regret.TwoRegretSolver
 import org.example.solvers.regret.WeightedTwoRegretSolver
 import org.knowm.xchart.BitmapEncoder
@@ -16,12 +15,14 @@ import org.knowm.xchart.XYChartBuilder
 
 fun main() {
     val instanceNames = listOf("kroA200.tsp", "kroB200.tsp")
+
     for (instanceName in instanceNames) {
         val content = InstanceReader::class.java.getResource("/$instanceName")?.readText()!!
         val instance = InstanceReader.readKroABInstance(content)
         val cities = InstanceReader.getCities(content)
         localSearchSolversTest(instance, cities, instanceName)
     }
+
 }
 
 private fun runSolvers(cities: List<City>, solvers: List<Solver>, instanceName: String) {
@@ -39,7 +40,8 @@ private fun localSearchSolversTest(instance: Instance, cities: List<City>, insta
 //        SteepestLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = true),
 //        SteepestLocalSearchSolver(instance, NeighborhoodType.EDGES, greedyStart = false),
 //        SteepestLocalSearchSolver(instance, NeighborhoodType.VERTICES, greedyStart = true),
-        SteepestLocalSearchSolver(instance, NeighborhoodType.VERTICES, greedyStart = false)
+//        SteepestLocalSearchSolver(instance, NeighborhoodType.VERTICES, greedyStart = false),
+        SteepestHistoryLocalSearchSolver(instance)
     )
     runSolvers(cities, solvers, instanceName)
 }
@@ -62,7 +64,7 @@ fun getBestTryIn100(solver: Solver, cities: List<City>, instanceName: String) {
     var worstLength = Int.MIN_VALUE
     var worstTime = Long.MIN_VALUE
     var bestTime = Long.MAX_VALUE
-    for (n in 1..100) {
+    for (n in 1..1) {
         solver.reset()
         val startTime = System.currentTimeMillis()
         val solution = solver.solve()
